@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-const pid = 1474
+const pid = 1151
 
 func TestCpuUsePercent(t *testing.T) {
 	cpuUse, err := metrics_c.CpuUsePercent()
@@ -30,6 +30,22 @@ func TestMemUsePercent(t *testing.T) {
 		panic(err)
 	}
 	fmt.Printf("mem use %f", memUse)
+}
+
+func TestNetStatus(t *testing.T) {
+	net, err := metrics_c.NetStatus()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("net %v", net)
+}
+
+func TestLoadAvg(t *testing.T) {
+	load, err := metrics_c.LoadAvg()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("load %v", load)
 }
 
 func TestProcessAll(t *testing.T) {
@@ -57,7 +73,7 @@ func TestProcessCpuUsePercent(t *testing.T) {
 }
 
 func TestProcessMemUsePercent(t *testing.T) {
-	memUse, err := metrics_c.ProcessCpuUsePercent(pid)
+	memUse, err := metrics_c.ProcessMemUsePercent(pid)
 	if err != nil {
 		panic(err)
 	}

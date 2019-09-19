@@ -118,7 +118,7 @@ func (this *PsPPidU) Collect() error {
 		case 7:
 			this.Stat = item
 		case 8:
-			this.Stat = item
+			this.Start = item
 		case 9:
 			this.Time = item
 		case 10:

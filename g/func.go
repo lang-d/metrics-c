@@ -17,9 +17,9 @@ func StringToUint64(value string) (uint64, error) {
 func StringToFloat32(value string) (float32, error) {
 	value_, err := strconv.ParseFloat(value, 32)
 	if err != nil {
-		return float32(value_), err
-	} else {
 		return 0, err
+	} else {
+		return float32(value_), err
 	}
 
 }
@@ -35,7 +35,7 @@ func FilterStringSlice(list []string, filterStr string) []string {
 }
 
 func DoCmdAndOutPut(cmd string) (string, error) {
-	output, err := exec.Command(cmd).Output()
+	output, err := exec.Command("/bin/bash", "-c", cmd).Output()
 	if err != nil {
 		return "", err
 	}

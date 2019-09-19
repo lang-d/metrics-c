@@ -182,12 +182,18 @@ func (this *ProcMeminfo) Collect() error {
 
 	content := g.BytesToString(contentBytes)
 	lines := strings.Split(content, "\n")
+
+	this.Mems = map[string]MemoryMetric{}
+
 	for _, line := range lines {
-		items := strings.Fields(line)
-		name := strings.Replace(items[0], ":", "", -1)
-		memoryMetrics := MemoryMetric{Name: name}
-		memoryMetrics.Value, _ = g.StringToUint64(items[1])
-		this.Mems[name] = memoryMetrics
+		if line != "" {
+			items := strings.Fields(line)
+			name := strings.Replace(items[0], ":", "", -1)
+			memoryMetrics := MemoryMetric{Name: name}
+			memoryMetrics.Value, _ = g.StringToUint64(items[1])
+			this.Mems[name] = memoryMetrics
+		}
+
 	}
 
 	if metric, ok := this.Mems["MemTotal"]; ok {
@@ -319,6 +325,9 @@ func (this *ProcNetDev) Collect() error {
 
 	lines := strings.Split(content, "\n")
 	lines = lines[2:]
+
+	this.Devs = map[string]NetDevMetrics{}
+
 	for _, line := range lines {
 		items := strings.Fields(line)
 		netDevMetrics := NetDevMetrics{}
@@ -392,7 +401,7 @@ func (this *ProcPidFd) Collect() error {
 		return errors.New("/proc/pid/fd dir need a pid,but not give")
 	}
 
-	fdPath := fmt.Sprintf("/prc/%d/fd", this.Pid)
+	fdPath := fmt.Sprintf("/proc/%d/fd", this.Pid)
 
 	files, err := ioutil.ReadDir(fdPath)
 	if err != nil {

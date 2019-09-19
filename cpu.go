@@ -5,8 +5,10 @@ import (
 	"time"
 )
 
+const DEFAULT_CPU_MONITOR_TIME = time.Millisecond * 100
+
 func CpuUsePercent() (float32, error) {
-	return CalcCpuUsePercent(0)
+	return CalcCpuUsePercent(DEFAULT_CPU_MONITOR_TIME)
 }
 
 func CalcCpuUsePercent(sleepTime time.Duration) (float32, error) {
@@ -20,9 +22,13 @@ func CalcCpuUsePercent(sleepTime time.Duration) (float32, error) {
 		return 0, err
 	}
 
-	// pcpu =100* (total-idle)/total
+	// pcpu =100* (total-idle)/total todo need ensure cacl method
 	total := procStat2.TotalCpuTime - procStat1.TotalCpuTime
 	idle := procStat2.CpuIdle - procStat1.CpuIdle
+
+	if total == 0 {
+		return 0, nil
+	}
 
 	return 100 * float32(total-idle) / float32(total), nil
 
