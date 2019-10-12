@@ -53,6 +53,19 @@ func TestNetStatus(t *testing.T) {
 	fmt.Printf("net %v", net)
 }
 
+func TestNetStatusLoop(t *testing.T) {
+	for {
+		net, err := metrics_c.NetStatus()
+		if err != nil {
+			panic(err)
+		}
+		fmt.Printf("net %v\n", net)
+
+		time.Sleep(time.Second)
+	}
+
+}
+
 func TestLoadAvg(t *testing.T) {
 	load, err := metrics_c.LoadAvg()
 	if err != nil {
