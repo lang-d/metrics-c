@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-const DEFAULT_CPU_MONITOR_TIME = time.Millisecond * 1000
+const DEFAULT_CPU_MONITOR_TIME = time.Second * 3
 
 func CpuUsePercent() (float32, error) {
 	return CalcCpuUsePercent(DEFAULT_CPU_MONITOR_TIME)
